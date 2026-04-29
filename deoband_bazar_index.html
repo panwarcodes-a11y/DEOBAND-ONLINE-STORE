@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Deoband Bazar</title>
+<style>
+body{margin:0;font-family:Arial;background:#0f3d2e;color:white}
+header{padding:15px;text-align:center;background:#0a2a20;position:sticky;top:0}
+h1{margin:0}
+.hero{text-align:center;padding:50px;background:linear-gradient(#0f3d2e,#000)}
+.btn{padding:10px 20px;background:gold;color:black;border:none;border-radius:5px;cursor:pointer}
+.section{padding:30px;text-align:center}
+.cards{display:flex;flex-wrap:wrap;justify-content:center;gap:20px}
+.card{background:white;color:black;padding:15px;border-radius:10px;width:220px;transition:.3s}
+.card:hover{transform:scale(1.05)}
+input{padding:10px;margin:5px;border-radius:5px;border:none;width:80%}
+footer{padding:20px;text-align:center;background:#0a2a20}
+.hidden{display:none}
+</style>
+</head>
+<body>
+
+<header>
+<h1>Deoband Bazar</h1>
+<p>Since 2026</p>
+</header>
+
+<div class="hero">
+<h2>Deoband ki original cheeze ab ghar tak</h2>
+<p>Prepaid Only • Secure Payment</p>
+<button class="btn" onclick="scrollToProducts()">Shop Now</button>
+</div>
+
+<div class="section" id="products">
+<h2>Products</h2>
+<div class="cards">
+<div class="card">
+<h3>Ajwa Khajoor</h3>
+<p>₹500</p>
+<button class="btn" onclick="buy('Ajwa Khajoor',500)">Buy</button>
+</div>
+<div class="card">
+<h3>Safawi Khajoor</h3>
+<p>₹400</p>
+<button class="btn" onclick="buy('Safawi Khajoor',400)">Buy</button>
+</div>
+<div class="card">
+<h3>Kurta</h3>
+<p>₹800</p>
+<button class="btn" onclick="buy('Kurta',800)">Buy</button>
+</div>
+</div>
+</div>
+
+<div class="section hidden" id="checkout">
+<h2>Checkout</h2>
+<p id="productInfo"></p>
+<input type="text" id="name" placeholder="Your Name"><br>
+<input type="text" id="address" placeholder="Address"><br>
+<input type="text" id="phone" placeholder="Phone Number"><br>
+<button class="btn" onclick="payNow()">Pay Now</button>
+</div>
+
+<footer>
+<p>© Deoband Bazar | WhatsApp Orders Available</p>
+</footer>
+
+<script>
+let currentProduct="";
+let currentPrice=0;
+const upiId="8954141288-2@ibl";
+const whatsapp="918954141288";
+
+function scrollToProducts(){
+document.getElementById('products').scrollIntoView({behavior:'smooth'});
+}
+
+function buy(name,price){
+currentProduct=name;
+currentPrice=price;
+document.getElementById('checkout').classList.remove('hidden');
+document.getElementById('productInfo').innerText=name+" - ₹"+price;
+window.scrollTo(0,document.body.scrollHeight);
+}
+
+function payNow(){
+let name=document.getElementById('name').value;
+let address=document.getElementById('address').value;
+let phone=document.getElementById('phone').value;
+
+if(!name||!address||!phone){
+alert('Please fill all details');
+return;
+}
+
+let upiLink=`upi://pay?pa=${upiId}&pn=DeobandBazar&am=${currentPrice}`;
+window.location.href=upiLink;
+
+setTimeout(()=>{
+let message=`New Order:%0AProduct: ${currentProduct}%0APrice: ₹${currentPrice}%0AName: ${name}%0AAddress: ${address}%0APhone: ${phone}%0APayment Done`;
+window.open(`https://wa.me/${whatsapp}?text=${message}`,'_blank');
+},3000);
+}
+</script>
+
+</body>
+</html>
